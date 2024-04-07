@@ -39,6 +39,79 @@ public class StudentLogic {
 		}while(reply.equalsIgnoreCase("y"));
 	}
 
+	//ADD ITEM AND UPDATE ITEM FUNTIONALITY
+	public void addItem() {
+        String reply = "";
+        do {
+            // TAKE INPUT FROM USER AND STORE IT IN THE OBJECT
+            InventoryModel obj = new InventoryModel();
+            System.out.println("Enter item id ");
+            int id = sc.nextInt();
+            obj.setItemid(id);
+            // TAKE INPUT FROM USER AND STORE IT IN THE OBJECT
+            System.out.println("Enter item name ");
+            obj.setitemName(sc.next());
+            // TAKE INPUT FROM USER AND STORE IT IN THE OBJECT
+            System.out.println("Enter item decription ");
+            obj.setDescription(sc.next());
+            
+            System.out.println("Enter item quantity ");
+            obj.setQuantity(sc.next());
+            
+            System.out.println("Enter item price ");
+            obj.setPrice(sc.nextDouble());
+            // ADD OBJECT TO THE ARRAY LIST
+            itemlist.add(obj);
+            System.out.println("Want to add more items Yes/No ");
+            reply = sc.next();
+        } while (reply.equalsIgnoreCase("yes"));
+    }
+	public void updateItemByID() {
+		System.out.println("Enter Item ID ");
+	
+    	int id = sc.nextInt();
+    	InventoryModel tempstobj = null;
+    	int loc = -1;
+    	//SEARCH OBJECT BY ROLL NO IN THE ARRAY LIST
+    	for(int index =0; index < itemlist.size();index++)
+		{
+    		tempstobj = itemlist.get(index);
+    		if (tempstobj.getItemid() == id)
+    		{
+    			loc = index;
+    			break;
+    		}
+		}
+    	if(loc != -1)
+        {
+        	//IF OBJECT IS FOUND
+           //TAKE UPDATED VALUE
+           System.out.println("Enter correct name: ");
+           tempstobj.setitemName(sc.next());
+   	    
+   	       System.out.println("Enter updated description:  ");
+   	       tempstobj.setDescription(sc.next());
+   	       
+   	       System.out.println("Enter updated quantity: ");
+	       tempstobj.setQuantity(sc.next());
+	       
+	       System.out.println("Enter updated price:  ");
+   	       tempstobj.setPrice(sc.nextDouble());
+   	       	       
+   	       //UPDATE ARRAY LIST
+   	       itemlist.set(loc, tempstobj);
+   	       System.out.println("ITEM INFORMATION UPDATED SUCCESFULLY.");
+   	   
+        }
+        else
+        	System.out.println("INVALID ITEM ID  ");
+   	}
+
+
+
+
+
+	
 	public void displayAllStudent()
 	{
 		for(StudentModel obj: stlist)
