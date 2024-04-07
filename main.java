@@ -29,7 +29,20 @@ public class StudentMain {
 		               obj.deleteStudent(); 
 		               obj.writeArrayListToFile();
 	                   break;
-	            
+					
+	            //add and update item
+			   case 1: obj.readArrayListFromFile();
+				       obj.addItem();
+			           obj.writeArrayListToFile();
+				       break;
+			 
+			   case 2: obj.readArrayListFromFile();
+		               obj.updateItemByID(); 
+		               obj.writeArrayListToFile();
+	                   break;
+
+
+					
 			   case 3: obj.readArrayListFromFile();
                        obj.searchStudentById(); 
                        break;
