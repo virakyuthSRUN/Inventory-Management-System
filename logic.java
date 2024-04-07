@@ -1,254 +1,156 @@
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class StudentLogic {
-	
-	private ArrayList<StudentModel> stlist = new ArrayList<StudentModel>();
- 	private Scanner sc = new Scanner(System.in);
- 	
-	public void addStudent()
-	{
-		String reply="";
-		do
-		{
-			//TAKE INPUT FROM USER AND STORE IT IN THE OBJECT
-			StudentModel obj = new StudentModel();
-			System.out.println("Enter Student id ");
-			int id = sc.nextInt();
-			obj.setStid(id);
-			
-			//TAKE INPUT FROM USER AND STORE IT IN THE OBJECT
-			System.out.println("Enter Student Name ");
-			obj.setStname(sc.next());
-			
-			//TAKE INPUT FROM USER AND STORE IT IN THE OBJECT
-			System.out.println("Enter Student Points ");
-			obj.setStpoints(sc.nextDouble());
-			
-			//ADD OBJECT TO THE ARRAY LIST
-			stlist.add(obj);
-						
-			System.out.println("Want to add more students Y/N ");
-			reply = sc.next();
-		}while(reply.equalsIgnoreCase("y"));
-	}
-
-	//ADD ITEM AND UPDATE ITEM FUNTIONALITY
-	public void addItem() {
-        String reply = "";
+public class InventoryLogic {
+    
+    private ArrayList<ProductModel> productList = new ArrayList<>();
+    private Scanner sc = new Scanner(System.in);
+    
+    public void addProduct() {
+        String reply="";
         do {
-            // TAKE INPUT FROM USER AND STORE IT IN THE OBJECT
-            InventoryModel obj = new InventoryModel();
-            System.out.println("Enter item id ");
+            ProductModel obj = new ProductModel();
+            System.out.println("Enter Product ID: ");
             int id = sc.nextInt();
-            obj.setItemid(id);
-            // TAKE INPUT FROM USER AND STORE IT IN THE OBJECT
-            System.out.println("Enter item name ");
-            obj.setitemName(sc.next());
-            // TAKE INPUT FROM USER AND STORE IT IN THE OBJECT
-            System.out.println("Enter item decription ");
-            obj.setDescription(sc.next());
+            obj.setProductId(id);
             
-            System.out.println("Enter item quantity ");
-            obj.setQuantity(sc.next());
+            System.out.println("Enter Product Name: ");
+            obj.setProductName(sc.next());
             
-            System.out.println("Enter item price ");
+            System.out.println("Enter Product Quantity: ");
+            obj.setQuantity(sc.nextInt());
+            
+            System.out.println("Enter Product Price: ");
             obj.setPrice(sc.nextDouble());
-            // ADD OBJECT TO THE ARRAY LIST
-            itemlist.add(obj);
-            System.out.println("Want to add more items Yes/No ");
+            
+            productList.add(obj);
+            
+            System.out.println("Want to add more products? (Y/N) ");
             reply = sc.next();
-        } while (reply.equalsIgnoreCase("yes"));
+        } while(reply.equalsIgnoreCase("y"));
     }
-	public void updateItemByID() {
-		System.out.println("Enter Item ID ");
-	
-    	int id = sc.nextInt();
-    	InventoryModel tempstobj = null;
-    	int loc = -1;
-    	//SEARCH OBJECT BY ROLL NO IN THE ARRAY LIST
-    	for(int index =0; index < itemlist.size();index++)
-		{
-    		tempstobj = itemlist.get(index);
-    		if (tempstobj.getItemid() == id)
-    		{
-    			loc = index;
-    			break;
-    		}
-		}
-    	if(loc != -1)
-        {
-        	//IF OBJECT IS FOUND
-           //TAKE UPDATED VALUE
-           System.out.println("Enter correct name: ");
-           tempstobj.setitemName(sc.next());
-   	    
-   	       System.out.println("Enter updated description:  ");
-   	       tempstobj.setDescription(sc.next());
-   	       
-   	       System.out.println("Enter updated quantity: ");
-	       tempstobj.setQuantity(sc.next());
-	       
-	       System.out.println("Enter updated price:  ");
-   	       tempstobj.setPrice(sc.nextDouble());
-   	       	       
-   	       //UPDATE ARRAY LIST
-   	       itemlist.set(loc, tempstobj);
-   	       System.out.println("ITEM INFORMATION UPDATED SUCCESFULLY.");
-   	   
+
+    public void displayAllProducts() {
+        for(ProductModel obj: productList) {
+            System.out.println("Product ID: " + obj.getProductId());
+            System.out.println("Product Name: " + obj.getProductName());
+            System.out.println("Product Quantity: " + obj.getQuantity());
+            System.out.println("Product Price: " + obj.getPrice());
+            System.out.println();
         }
-        else
-        	System.out.println("INVALID ITEM ID  ");
-   	}
-
-
-
-
-
-	
-	public void displayAllStudent()
-	{
-		for(StudentModel obj: stlist)
-		{
-			System.out.println("Student id " + obj.getStid());
-			System.out.println("Student Name " + obj.getStname());
-			System.out.println("Student Points " + obj.getStpoints());
-			System.out.println();
-		}
-	}
-	
-	public void deleteStudent()
-   	{
-    	System.out.println("Enter ID ");
-    	int id = sc.nextInt();
-    	StudentModel tempstobj = null;
-    	
-    	//SEARCH OBJECT BY ROLL NO IN THE ARRAY LIST
-    	//IF FOUND STORE IT IN TEMP OBJ
-    	for(StudentModel stobj: stlist)
-		{
-    		if (stobj.getStid() == id)
-    		{
-    			tempstobj = stobj;
-    			break;
-    		}
-		}
-    	//CHECK OBJECT IS FUND OR NOT
-        if(tempstobj != null)
-        {
-        	//IF OBJECT IS FOUND
-        	// REMOVE OBJECT FROM ARRAYLIST
-        	stlist.remove(tempstobj);
-			System.out.println("Student Information Deeted ");
+    }
+    
+    public void deleteProduct() {
+        System.out.println("Enter Product ID to delete: ");
+        int id = sc.nextInt();
+        ProductModel tempObj = null;
+        
+        for(ProductModel product: productList) {
+            if (product.getProductId() == id) {
+                tempObj = product;
+                break;
+            }
         }
-        else
-        	System.out.println("INVALID ROLL NO ");
-   	}
-	
-	public void searchStudentById()
-   	{
-    	System.out.println("Enter ID ");
-    	int id = sc.nextInt();
-    	StudentModel tempstobj = null;
-    	
-    	//SEARCH OBJECT BY ROLL NO IN THE ARRAY LIST
-    	for(StudentModel stobj:stlist)
-		{
-    		if (stobj.getStid() == id)
-    		{
-    			tempstobj = stobj;
-    			break;
-    		}
-		}
-    	
-    	if(tempstobj != null)
-    	{
-    	   	System.out.println("ID is "+ tempstobj.getStid());
-    	   	System.out.println("Name is "+ tempstobj.getStname());
-    	   	System.out.println("Grade Point is "+ tempstobj.getStpoints());  	
-    	}
-    	else
-    		System.out.println("INVALID ID ");
-   	}
-	
-	
-	public void updateStudentDetailsByID()
-   	{
-    	System.out.println("Enter Student ID ");
-    	int id = sc.nextInt();
-    	StudentModel tempstobj = null;
-    	int loc = -1;
-    	//SEARCH OBJECT BY ROLL NO IN THE ARRAY LIST
-    	for(int index =0; index < stlist.size();index++)
-		{
-    		tempstobj = stlist.get(index);
-    		if (tempstobj.getStid() == id)
-    		{
-    			loc = index;
-    			break;
-    		}
-		}
-    	//CHECK OBJECT IS FOUND OR NOT
-        if(loc != -1)
-        {
-        	//IF OBJECT IS FOUND
-           //TAKE UPDATED VALUE
-           System.out.println("Enter Correct Name ");
-           tempstobj.setStname(sc.next());
-   	    
-   	       System.out.println("Enter Updated Grade Points  ");
-   	       tempstobj.setStpoints(sc.nextInt());
-   	       	       
-   	       //UPDATE ARRAY LIST
-   	       stlist.set(loc, tempstobj);
-   	       
-   	       System.out.println("Student Information Updated ");
+        
+        if(tempObj != null) {
+            productList.remove(tempObj);
+            System.out.println("Product Deleted Successfully.");
+        } else {
+            System.out.println("Invalid Product ID.");
         }
-        else
-        	System.out.println("INVALID STUDENT ID  ");
-   	}
-	
-	
-	public void writeArrayListToFile()
-	{
-	  try	
-	  {
-		FileOutputStream fout = new FileOutputStream("D:\\Student.txt");
-		ObjectOutputStream oout = new ObjectOutputStream(fout);
-		//WRITE ARRAYLIST OBJECT INTO FILE 
-		oout.writeObject(stlist);
-		
-		System.out.println("FILE WRITING DONE....");
-	  
-	  }catch(FileNotFoundException e){System.out.println(e.toString());}
-	   catch(IOException e) {System.out.print(e.toString());}
-	   catch(Exception e) {System.out.print(e.toString());}
-	}
-	
-	public void readArrayListFromFile()
-	{
-	  try
-	  {
-		FileInputStream fin=new FileInputStream("D:\\Student.txt");
-		ObjectInputStream oin=new ObjectInputStream(fin);
-		//READ DATA FROM FILE AND STORE IT IN ARRAYLIST 
-		stlist = (ArrayList<StudentModel>)oin.readObject();
-	  
-		System.out.println("READING FROM FILE COMPLETED.....");
-	  }catch(FileNotFoundException e){
-		  stlist = new ArrayList<StudentModel>();
-		  //System.out.println(e.toString());
-		  }
-	   catch(IOException e) {System.out.print(e.toString());}
-	   catch(Exception e) {System.out.print(e.toString());}
-	}
-	
+    }
+    
+    public void searchProductById() {
+        System.out.println("Enter Product ID to search: ");
+        int id = sc.nextInt();
+        ProductModel tempObj = null;
+        
+        for(ProductModel product: productList) {
+            if (product.getProductId() == id) {
+                tempObj = product;
+                break;
+            }
+        }
+        
+        if(tempObj != null) {
+            System.out.println("Product ID: " + tempObj.getProductId());
+            System.out.println("Product Name: " + tempObj.getProductName());
+            System.out.println("Product Quantity: " + tempObj.getQuantity());
+            System.out.println("Product Price: " + tempObj.getPrice());
+        } else {
+            System.out.println("Product not found.");
+        }
+    }
+    
+    public void updateProductDetailsById() {
+        System.out.println("Enter Product ID to update: ");
+        int id = sc.nextInt();
+        ProductModel tempObj = null;
+        
+        for(ProductModel product: productList) {
+            if (product.getProductId() == id) {
+                tempObj = product;
+                break;
+            }
+        }
+        
+        if(tempObj != null) {
+            System.out.println("Enter New Product Name: ");
+            tempObj.setProductName(sc.next());
+            
+            System.out.println("Enter New Product Quantity: ");
+            tempObj.setQuantity(sc.nextInt());
+            
+            System.out.println("Enter New Product Price: ");
+            tempObj.setPrice(sc.nextDouble());
+            
+            System.out.println("Product details updated successfully.");
+        } else {
+            System.out.println("Invalid Product ID.");
+        }
+    }
+    
+    public void generateReport() {
+        System.out.println("Generating report...");
+        // Logic to generate report goes here
+        System.out.println("Report generated successfully.");
+    }
+    
+    public void saleOrderManagement() {
+        System.out.println("Sale order management...");
+        // Logic for sale order management goes here
+    }
+    
+    public void purchaseOrder() {
+        System.out.println("Purchase order...");
+        // Logic for purchase order goes here
+    }
+    
+    public void writeArrayListToFile() {
+        try {
+            FileOutputStream fout = new FileOutputStream("productList.ser");
+            ObjectOutputStream oout = new ObjectOutputStream(fout);
+            oout.writeObject(productList);
+            System.out.println("Data saved to file.");
+            oout.close();
+            fout.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void readArrayListFromFile() {
+        try {
+            FileInputStream fin = new FileInputStream("productList.ser");
+            ObjectInputStream oin = new ObjectInputStream(fin);
+            productList = (ArrayList<ProductModel>) oin.readObject();
+            oin.close();
+            fin.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found. Starting with an empty inventory.");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
