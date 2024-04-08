@@ -6,6 +6,36 @@ public class InventoryMain {
         Scanner sc = new Scanner(System.in);
         String reply="";
         InventoryLogic obj = new InventoryLogic(); 
+
+        do {
+            System.out.println("WELCOME TO STUDENT MANAGEMENT SYSTEM");
+            System.out.println("1. REGISTER");
+            System.out.println("2. LOGIN");
+            System.out.println("3. EXIT");
+
+            System.out.println("ENTER YOUR CHOICE ");
+            int option = sc.nextInt();
+
+            switch (option) {
+                case 1:
+                    obj.register();
+                    obj.login();
+                    break;
+
+                case 2:
+                    obj.login();   
+
+                    break;
+
+                case 3:
+                    System.out.println("Exiting Inventory Management System.");
+                    return;
+
+            default:
+                System.out.println("PLEASE ENTER VALID INPUT ");
+        }
+        } while (reply.equalsIgnoreCase("y"));
+           
         do {
             System.out.println("WELCOME TO INVENTORY MANAGEMENT SYSTEM");
             System.out.println("1. ADD PRODUCT ");
