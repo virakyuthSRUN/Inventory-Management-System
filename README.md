@@ -15,7 +15,7 @@ We propose to develop a desktop-based Simple Inventory Management System using J
 4. Update Product
 5. Remove Product 
 6. Search Product 
-7. Generate Report
+7. Display Product
 8. Manage Supplier
 9. Sale Order Management
 10. Purchase Order (PO)
