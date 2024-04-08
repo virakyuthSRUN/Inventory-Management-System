@@ -112,9 +112,13 @@ public class InventoryLogic {
     }
     
     public void generateReport() {
-        System.out.println("Generating report...");
-        // Logic to generate report goes here
-        System.out.println("Report generated successfully.");
+        System.out.println("Inventory Report");
+        System.out.println("----------------");
+        System.out.println("Product\t\tQuantity");
+
+        for (ProductModel product : productList) {
+            System.out.println(product.getProductName() + "\t\t" + product.getQuantity());
+        }
     }
     
     public void saleOrderManagement() {
