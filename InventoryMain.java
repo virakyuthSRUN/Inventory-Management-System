@@ -83,7 +83,7 @@ public class InventoryMain {
                     break;
                 case 4:
                     obj.readArrayListFromFile();
-                    obj.searchProduct();
+                    obj.searchProduct();	
                     break;
                 case 5:
                     obj.readArrayListFromFile();
