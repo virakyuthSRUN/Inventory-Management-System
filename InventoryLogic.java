@@ -6,183 +6,200 @@ public class InventoryLogic {
     
     private ArrayList<ProductModel> productList = new ArrayList<>();
     private Scanner sc = new Scanner(System.in);
-
-    public void register()
-	{
-		System.out.println("Enter username: ");
-		String username = sc.next();
-
-		System.out.println("Enter password: ");
-		String password = sc.next();
-
-        try (PrintWriter writer = new PrintWriter(new FileWriter("D:\\user_data.txt", true))) {
-            
-            writer.println(username + "," + password);
-            System.out.println("Registration successful");
-            System.out.println("Please Login to Continue: ");
-        } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-		
-	}
-	public void login() {
-	    System.out.println("Enter username: ");
-	    String username = sc.next();
-
-	    System.out.println("Enter password: ");
-	    String password = sc.next();
-
-	    try (Scanner fileScanner = new Scanner(new FileInputStream("D:\\user_data.txt"))) {
-	        boolean found = false;
-	        while (fileScanner.hasNextLine()) {
-	            String line = fileScanner.nextLine();
-	            String[] data = line.split(",");
-	            if (data[0].equals(username) && data[1].equals(password)) {
-	                found = true;
-	                break;
-	            }
-	        }
-	        if (found) {
-	            System.out.println("Login successful");
-	        } else {
-	            System.out.println("Invalid username or password");
-	        }
-	    } catch (FileNotFoundException e) {
-	        System.out.println("Error: " + e.getMessage());
-	    }
-	  
-	}
+    private boolean isAdminLoggedIn = false;
     
+    // Admin Login Function
+    public boolean adminLogin() {
+    	System.out.println("");
+        System.out.print("Enter Admin Username\n> ");
+        String username = sc.next();
+        System.out.print("Enter Admin Password\n> ");
+        String password = sc.next();
+        
+        // Assuming predefined admin credentials
+        if (username.equals("virakyuth") && password.equals("virakyuth123")) {
+            isAdminLoggedIn = true;
+            return true;
+        } else {
+            isAdminLoggedIn = false;
+            return false;
+        }
+    }
+    
+    // Add Product Function
     public void addProduct() {
-        String reply="";
-        do {
-            ProductModel obj = new ProductModel();
-            System.out.println("Enter Product ID: ");
-            int id = sc.nextInt();
-            obj.setProductId(id);
-            
-            System.out.println("Enter Product Name: ");
-            obj.setProductName(sc.next());
-            
-            System.out.println("Enter Product Quantity: ");
-            obj.setQuantity(sc.nextInt());
-            
-            System.out.println("Enter Product Price: ");
-            obj.setPrice(sc.nextDouble());
-            
-            productList.add(obj);
-            
-            System.out.println("Want to add more products? (Y/N) ");
-            reply = sc.next();
-        } while(reply.equalsIgnoreCase("y"));
+    	System.out.println("");
+        // Check if admin is logged in
+        if (!isAdminLoggedIn) {
+            System.out.println("Admin login required to perform this action.");
+            return;
+        }
+        
+        ProductModel product = new ProductModel();
+        System.out.print("Enter Product ID\n> ");
+        product.setProductId(sc.nextInt());
+        
+        System.out.print("Enter Product Name\n> ");
+        product.setProductName(sc.next());
+        
+        System.out.print("Enter Product Quantity\n> ");
+        product.setQuantity(sc.nextInt());
+        
+        System.out.print("Enter Product Price\n> $");
+        product.setPrice(sc.nextDouble());
+        
+        productList.add(product);
+        System.out.println("Product Added Successfully.");
     }
 
+    // Update Product Function
+    public void updateProduct() {
+    	System.out.println("");
+        // Check if admin is logged in
+        if (!isAdminLoggedIn) {
+            System.out.println("Admin login required to perform this action.");
+            return;
+        }
+        
+        System.out.print("Enter Product ID to update\n> ");
+        int productId = sc.nextInt();
+        for (ProductModel product : productList) {
+            if (product.getProductId() == productId) {
+                System.out.print("Enter New Product Name\n> ");
+                product.setProductName(sc.next());
+                
+                System.out.print("Enter New Product Quantity\n> ");
+                product.setQuantity(sc.nextInt());
+                
+                System.out.print("Enter New Product Price\n> $");
+                product.setPrice(sc.nextDouble());
+                
+                System.out.println("Product Updated Successfully.");
+                return;
+            }
+        }
+        System.out.println("Product ID not found.");
+    }
+    
+    // Remove Product Function
+    public void removeProduct() {
+    	System.out.println("");
+        // Check if admin is logged in
+        if (!isAdminLoggedIn) {
+            System.out.println("Admin login required to perform this action.");
+            return;
+        }
+        
+        System.out.print("Enter Product ID to remove\n> ");
+        int productId = sc.nextInt();
+        for (ProductModel product : productList) {
+            if (product.getProductId() == productId) {
+                productList.remove(product);
+                System.out.println("Product Removed Successfully.");
+                return;
+            }
+        }
+        System.out.println("Product ID not found.");
+    }
+    
+    // Search Product Function
+    public void searchProduct() {
+    	System.out.println("");
+        System.out.print("Enter Product ID to search\n> ");
+        int productId = sc.nextInt();
+        for (ProductModel product : productList) {
+            if (product.getProductId() == productId) {
+                System.out.println("Product ID: " + product.getProductId());
+                System.out.println("Product Name: " + product.getProductName());
+                System.out.println("Product Quantity: " + product.getQuantity());
+                System.out.println("Product Price: $" + product.getPrice());
+                return;
+            }
+        }
+        System.out.println("Product ID not found.");
+    }
+    
+    // Display Product Function
     public void displayAllProducts() {
-        for(ProductModel obj: productList) {
-            System.out.println("Product ID: " + obj.getProductId());
-            System.out.println("Product Name: " + obj.getProductName());
-            System.out.println("Product Quantity: " + obj.getQuantity());
-            System.out.println("Product Price: " + obj.getPrice());
-            System.out.println();
-        }
-    }
-    
-    public void deleteProduct() {
-        System.out.println("Enter Product ID to delete: ");
-        int id = sc.nextInt();
-        ProductModel tempObj = null;
-        
-        for(ProductModel product: productList) {
-            if (product.getProductId() == id) {
-                tempObj = product;
-                break;
-            }
-        }
-        
-        if(tempObj != null) {
-            productList.remove(tempObj);
-            System.out.println("Product Deleted Successfully.");
-        } else {
-            System.out.println("Invalid Product ID.");
-        }
-    }
-    
-    public void searchProductById() {
-        System.out.println("Enter Product ID to search: ");
-        int id = sc.nextInt();
-        ProductModel tempObj = null;
-        
-        for(ProductModel product: productList) {
-            if (product.getProductId() == id) {
-                tempObj = product;
-                break;
-            }
-        }
-        
-        if(tempObj != null) {
-            System.out.println("Product ID: " + tempObj.getProductId());
-            System.out.println("Product Name: " + tempObj.getProductName());
-            System.out.println("Product Quantity: " + tempObj.getQuantity());
-            System.out.println("Product Price: " + tempObj.getPrice());
-        } else {
-            System.out.println("Product not found.");
-        }
-    }
-    
-    public void updateProductDetailsById() {
-        System.out.println("Enter Product ID to update: ");
-        int id = sc.nextInt();
-        ProductModel tempObj = null;
-        
-        for(ProductModel product: productList) {
-            if (product.getProductId() == id) {
-                tempObj = product;
-                break;
-            }
-        }
-        
-        if(tempObj != null) {
-            System.out.println("Enter New Product Name: ");
-            tempObj.setProductName(sc.next());
-            
-            System.out.println("Enter New Product Quantity: ");
-            tempObj.setQuantity(sc.nextInt());
-            
-            System.out.println("Enter New Product Price: ");
-            tempObj.setPrice(sc.nextDouble());
-            
-            System.out.println("Product details updated successfully.");
-        } else {
-            System.out.println("Invalid Product ID.");
-        }
-    }
-    
-    public void generateReport() {
-        System.out.println("Inventory Report");
-        System.out.println("----------------");
-        System.out.println("Product\t\tQuantity");
+        System.out.println("\nDisplay All Products");
+        System.out.println("-----------------------------------------------");
+        System.out.printf("%-12s%-20s%-10s%-10s%n", 
+                "Product ID", "Name", "Quantity", "Price");
+        System.out.println("-----------------------------------------------");
 
         for (ProductModel product : productList) {
-            System.out.println(product.getProductName() + "\t\t" + product.getQuantity());
+            System.out.printf("%-12s%-20s%-10s%-10s%n",
+                    product.getProductId(),
+                    product.getProductName(),
+                    product.getQuantity(),
+                    product.getPrice());
         }
+        System.out.println("-----------------------------------------------");
     }
     
+    // Sale Order Management Function
     public void saleOrderManagement() {
-        System.out.println("Sale order management...");
-        // Logic for sale order management goes here
+    	System.out.println("");
+        System.out.print("Enter Product ID to place an order\n> ");
+        int productId = sc.nextInt();
+        for (ProductModel product : productList) {
+            if (product.getProductId() == productId) {
+                System.out.print("Enter Quantity to order\n> ");
+                int quantity = sc.nextInt();
+                
+                if (quantity <= product.getQuantity()) {
+                    // Reduce the quantity from inventory
+                    product.setQuantity(product.getQuantity() - quantity);
+                    System.out.println("Order Placed Successfully.");
+                    writeArrayListToFile(); // Update product list in file
+                } else {
+                    System.out.println("Insufficient Quantity in Stock.");
+                }
+                return;
+            }
+        }
+        System.out.println("Product ID not found.");
+    }
+
+    // Purchase Order Function
+	public void purchaseOrder() {
+		System.out.println("");
+	    // Check if admin is logged in
+	    if (!isAdminLoggedIn) {
+	        System.out.println("Admin login required to perform this action.");
+	        return;
+	    }
+	    
+	    System.out.print("Enter Product ID to add to inventory\n> ");
+	    int productId = sc.nextInt();
+	    for (ProductModel product : productList) {
+	        if (product.getProductId() == productId) {
+	            System.out.print("Enter Quantity to add\n> ");
+	            int quantity = sc.nextInt();
+	            
+	            // Increase the quantity in inventory
+	            product.setQuantity(product.getQuantity() + quantity);
+	            System.out.println("Product Added to Inventory Successfully.");
+	            writeArrayListToFile(); // Update product list in file
+	            return;
+	        }
+	    }
+	    System.out.println("Product ID not found.");
+	}
+
+    // Exit Function
+    public void exit() {
+    	System.out.println("");
+        System.out.println("Thank you for using the Inventory Management System!");
+        System.exit(0);
     }
     
-    public void purchaseOrder() {
-        System.out.println("Purchase order...");
-        // Logic for purchase order goes here
-    }
-    
+    // Write ArrayList to File Function
     public void writeArrayListToFile() {
         try {
             FileOutputStream fout = new FileOutputStream("productList.ser");
             ObjectOutputStream oout = new ObjectOutputStream(fout);
             oout.writeObject(productList);
-            System.out.println("Data saved to file.");
             oout.close();
             fout.close();
         } catch (IOException e) {
@@ -190,6 +207,7 @@ public class InventoryLogic {
         }
     }
     
+    // Read ArrayList from File Function
     public void readArrayListFromFile() {
         try {
             FileInputStream fin = new FileInputStream("productList.ser");
@@ -198,7 +216,7 @@ public class InventoryLogic {
             oin.close();
             fin.close();
         } catch (FileNotFoundException e) {
-            System.out.println("File not found. Starting with an empty inventory.");
+            System.out.println("Product list file not found. Starting with an empty product list.");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
