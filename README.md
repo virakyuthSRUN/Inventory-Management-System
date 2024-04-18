@@ -1,12 +1,12 @@
 # Inventory-Management-System
 
 😊 Introduction: 
-We propose to develop a desktop-based Simple Inventory Management System using Java. This system aims to streamline inventory tracking and reporting processes, providing a user-friendly solution for small to medium-sized businesses or organizations.
+Grettings, We developed a desktop-based Simple Inventory Management System using Java. This system aims to streamline inventory tracking and reporting processes, providing a user-friendly solution for small to medium-sized businesses or organizations.
 
 📍 Objective: 
-•	Efficient Inventory Tracking: Enable users to easily add, update, and search for product information.
-•	Informed Decision-Making: Provide reports on stock levels, low-stock alerts, and sales trends to support better inventory management decisions.
-•	User-Friendly Interface: Design an intuitive interface that is easy to navigate and use.
+1. Efficient Inventory Tracking: Enable users to easily add, update, and search for product information.
+2. Informed Decision-Making: Provide reports on stock levels, low-stock alerts, and sales trends to support better inventory management decisions.
+3. User-Friendly Interface: Design an intuitive interface that is easy to navigate and use.
 
 🤖 Functions:
 1. Admin Login
@@ -21,3 +21,7 @@ We propose to develop a desktop-based Simple Inventory Management System using J
 10. Purchase Order (PO)
 
 Members:
+1. Virakyuth Srun
+2. Kimyee Lim
+3. Sethavotey
+4. Soniwath Mi
